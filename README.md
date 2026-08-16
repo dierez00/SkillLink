@@ -46,17 +46,25 @@ The API is layered into controllers, DTOs, services, repositories, entities, map
 
 ### Frontend
 
+![React](https://img.shields.io/badge/React-19.1-61DAFB?logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-6.3-646CFF?logo=vite&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1-06B6D4?logo=tailwindcss&logoColor=white)
+
 React 19, TypeScript, Vite, React Router, Tailwind CSS, Framer Motion, and ESLint.
 
 ### Backend
+
+![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5-6DB33F?logo=springboot&logoColor=white) ![Spring Security](https://img.shields.io/badge/Spring_Security-6-6DB33F?logo=springsecurity&logoColor=white) ![Maven](https://img.shields.io/badge/Maven-Wrapper-C71A36?logo=apachemaven&logoColor=white)
 
 Java 17, Spring Boot 3.5, Spring Web, Spring Security, Spring Data JPA, Bean Validation, Actuator, ModelMapper, Maven, and Auth0 Java JWT.
 
 ### Database and messaging
 
+![MySQL](https://img.shields.io/badge/MySQL-8.4-4479A1?logo=mysql&logoColor=white) ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-4.1-FF6600?logo=rabbitmq&logoColor=white) ![Node.js](https://img.shields.io/badge/Node.js-22-5FA04E?logo=nodedotjs&logoColor=white) ![Express](https://img.shields.io/badge/Express-5.1-000000?logo=express&logoColor=white)
+
 MySQL 8 and RabbitMQ. The email worker uses Node.js, Express, Nodemailer, Handlebars templates, and `amqplib`.
 
 ### Tooling and deployment
+
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white) ![Nginx](https://img.shields.io/badge/Nginx-Alpine-009639?logo=nginx&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI-2088FF?logo=githubactions&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-Collection-FF6C37?logo=postman&logoColor=white)
 
 Docker, Docker Compose, Nginx, Postman, npm, Maven Wrapper, and GitHub Actions.
 
