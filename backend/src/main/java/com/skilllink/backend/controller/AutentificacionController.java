@@ -27,21 +27,11 @@ public class AutentificacionController {
 
     @PostMapping
     public ResponseEntity<DatosJWTToken> autenticarUsuario(@RequestBody @Valid DatosAutentificacionUsuario datosAutentificacionUsuario) {
-        System.out.println("Autenticando a: " + datosAutentificacionUsuario.email());
         Authentication authToken = new UsernamePasswordAuthenticationToken(datosAutentificacionUsuario.email(),
                 datosAutentificacionUsuario.contrasena());
-
-        try {
-            Authentication usuarioAutenticado = authenticationManager.authenticate(authToken);
-            String JWTToken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
-
-            System.out.println("Se autentico exitosamente el correo " + datosAutentificacionUsuario.email());
-
-            return ResponseEntity.ok(new DatosJWTToken(JWTToken));
-        } catch (Exception e) {
-            System.out.println("Error de autentificacion de usuario: " + datosAutentificacionUsuario.email() + " - " + e.getMessage());
-            throw e;
-        }
+        Authentication usuarioAutenticado = authenticationManager.authenticate(authToken);
+        String JWTToken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
+        return ResponseEntity.ok(new DatosJWTToken(JWTToken));
 
     }
 }

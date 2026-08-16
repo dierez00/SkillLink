@@ -1,16 +1,10 @@
 package com.skilllink.backend.messaging;
 
 import com.skilllink.backend.config.RabbitMQConfig;
-import com.skilllink.backend.dto.ResetPasswordMessage;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
-
 import java.util.HashMap;
-
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Service;
 
 @Service
 public class PasswordResetPublisher {

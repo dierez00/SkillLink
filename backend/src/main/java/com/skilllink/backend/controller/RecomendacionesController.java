@@ -2,7 +2,7 @@ package com.skilllink.backend.controller;
 
 import com.skilllink.backend.dto.usuario.MatchSocialPorcentuado;
 import com.skilllink.backend.entity.Usuario;
-import com.skilllink.backend.repository.UsuarioRepositorio;
+import com.skilllink.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecomendacionesController {
 
     @Autowired
-    private UsuarioRepositorio usuarioRepositorio;
+    private UsuarioRepository usuarioRepository;
 
     @GetMapping
     public ResponseEntity<Page<MatchSocialPorcentuado>> matchingPorHabilidades(@AuthenticationPrincipal Usuario usuario, @PageableDefault Pageable paginacion) {
 
-        Page<MatchSocialPorcentuado> skillMatchUser = usuarioRepositorio.findMatchBySkill(usuario.getIdUsuario(), paginacion);
+        Page<MatchSocialPorcentuado> skillMatchUser = usuarioRepository.findMatchBySkill(usuario.getIdUsuario(), paginacion);
 
         return ResponseEntity.ok(skillMatchUser);
     }

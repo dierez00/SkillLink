@@ -19,6 +19,7 @@ public class EmailEventPublisher {
 
     public void sendUserRegistrationEvent(String name, String email) {
         Map<String, String> message = new HashMap<>();
+        message.put("type", "welcome");
         message.put("name", name);
         message.put("email", email);
         

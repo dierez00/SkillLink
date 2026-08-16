@@ -3,8 +3,6 @@ package com.skilllink.backend.mapper;
 import com.skilllink.backend.dto.usuario.UsuarioInfRegistro;
 import com.skilllink.backend.entity.Usuario;
 import com.skilllink.backend.enums.RolUsuario;
-import com.skilllink.backend.messaging.EmailEventPublisher;
-import com.skilllink.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -16,12 +14,6 @@ public class UsuarioMapper {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private EmailEventPublisher emailEventPublisher;
 
     public Usuario toEntity(UsuarioInfRegistro dto) {
         // Encriptar la contraseña
@@ -36,15 +28,6 @@ public class UsuarioMapper {
         nuevoUsuario.setContrasena(contrasenaEncriptada);
         nuevoUsuario.setFechaRegistro(LocalDateTime.now());
 
-        // Guardar usuario en la base de datos
-        Usuario usuarioGuardado = usuarioRepository.save(nuevoUsuario);
-
-        // Enviar evento para email
-        emailEventPublisher.sendUserRegistrationEvent(
-            usuarioGuardado.getNombre(),
-            usuarioGuardado.getEmail()
-        );
-
-        return usuarioGuardado;
+        return nuevoUsuario;
     }
 }

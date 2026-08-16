@@ -39,7 +39,6 @@ public class ProyectoService {
             existing.setDescripcion(nuevoProyecto.getDescripcion());
             existing.setEstado(nuevoProyecto.getEstado());
             existing.setFecha_inicio(nuevoProyecto.getFecha_inicio());
-            existing.setId_usuario(nuevoProyecto.getId_usuario());
             return repository.save(existing);
         }).orElse(null);
     }
@@ -61,14 +60,10 @@ public class ProyectoService {
         Proyecto proyecto = repository.findById(id)
             .orElseThrow(() -> new RuntimeException("Proyecto no encontrado"));
 
-        List<ProyectoTecnologia> relaciones = proyectoTecnologiaRepository.findAll();
-
-        List<Tecnologia> tecnologias = relaciones.stream()
-                .filter(r -> r.getId_proyecto().equals(id))
-                .map(r -> tecnologiaRepository.findById(r.getId_tecnologia()))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
+        List<Long> tecnologiaIds = proyectoTecnologiaRepository.findAllByProjectId(id).stream()
+                .map(ProyectoTecnologia::getId_tecnologia)
                 .toList();
+        List<Tecnologia> tecnologias = tecnologiaRepository.findAllById(tecnologiaIds);
 
         return new ProyectoConTecnologiasDTO(
                 proyecto.getId_proyecto(),

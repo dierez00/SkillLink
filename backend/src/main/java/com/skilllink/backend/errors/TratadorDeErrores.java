@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -35,12 +36,17 @@ public class TratadorDeErrores {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> tratarError500(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Error inesperado: " + e.getMessage());
+                .body("An unexpected error occurred");
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> tratarCredencialesInvalidas() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> tratarErrorEnumInvalido(IllegalArgumentException e) {
-        return ResponseEntity.badRequest().body("Valor incorecto proporcionado en uno de los campos.");
+        return ResponseEntity.badRequest().body("Invalid value provided for one of the fields");
     }
 
     private record DatosErrorValidacion(String campo, String error) {
@@ -49,4 +55,3 @@ public class TratadorDeErrores {
         }
     }
 }
-

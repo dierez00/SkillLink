@@ -91,10 +91,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.testng</groupId>
-			<artifactId>testng</artifactId>
-			<version>RELEASE</version>
-			<scope>compile</scope>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>

@@ -1,11 +1,12 @@
 package com.skilllink.backend.entity;
 
 import com.skilllink.backend.enums.RolUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -27,6 +28,7 @@ public class Usuario implements UserDetails {
     private Long idUsuario;
     private String nombre;
     private String email;
+    @JsonIgnore
     @Column(name = "contrasea")
     private String contrasena;
     @Enumerated(EnumType.STRING)
@@ -41,7 +43,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return rol == null ? List.of() : List.of(new SimpleGrantedAuthority("ROLE_" + rol.name()));
     }
 
     @Override
@@ -75,6 +77,5 @@ public class Usuario implements UserDetails {
     }
 
 }
-
 
 

@@ -10,12 +10,16 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @Service
 public class TokenService {
 
     @Value("${api.security.secret}")
     private String apiSecret;
+
+    @Value("${api.security.expiration-minutes:180}")
+    private long expirationMinutes;
 
     public String generarToken (Usuario usuario){
         try {
@@ -27,7 +31,7 @@ public class TokenService {
                     .withExpiresAt(generarFechaDeVencimiento())
                     .sign(algorithm);
         } catch (JWTCreationException exception){
-            throw new RuntimeException();
+            throw new IllegalStateException("Unable to create authentication token", exception);
         }
     }
 
@@ -40,16 +44,15 @@ public class TokenService {
                     .build()
                     .verify(tokenJWT)
                     .getSubject();
-        } catch (JWTCreationException exception){
-            throw new RuntimeException();
+        } catch (JWTVerificationException exception){
+            return null;
         }
 
     }
 
     private Instant generarFechaDeVencimiento(){
-        return Instant.now().plus(3, ChronoUnit.HOURS);
+        return Instant.now().plus(expirationMinutes, ChronoUnit.MINUTES);
     }
 
 
 }
-

@@ -31,6 +31,7 @@ public class Perfil {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "perfil",cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<PerfilHabilidad> perfilHabilidad = new ArrayList<>();
 
 }

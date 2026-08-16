@@ -1,7 +1,6 @@
 package com.skilllink.backend.config;
 
-import com.skilllink.backend.config.SecurityFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +25,14 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private SecurityFilter securityFilter;
+    private final SecurityFilter securityFilter;
+
+    @Value("${app.cors.allowed-origins:http://localhost:5173}")
+    private String allowedOrigins;
+
+    public SecurityConfig(SecurityFilter securityFilter) {
+        this.securityFilter = securityFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,15 +45,18 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/registro").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/ingresar").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/habilidades/consultar").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/habilidades/agregar").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/usuario/roles").permitAll()
                         .requestMatchers(HttpMethod.GET, "/categoria/obtener").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/habilidad/niveles").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/recuperar").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/recuperar/reset").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/actuator/health").permitAll()
 
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, exception) ->
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
@@ -55,7 +64,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+        config.setAllowedOrigins(Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(origin -> !origin.isEmpty())
+                .toList());
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

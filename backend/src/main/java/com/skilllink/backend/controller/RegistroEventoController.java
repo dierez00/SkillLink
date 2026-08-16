@@ -70,7 +70,7 @@ public class RegistroEventoController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<DatosSalidaRegistroEvento> actualizarRegistroEvento(@PathVariable Long id, @RequestBody @Valid DatosEntradaRegistroEvento datosEntradaRegistroEvento) {
-        if (registroEventoRepository.existsById(id) && usuarioRepository.existsById(datosEntradaRegistroEvento.idUsuario()) && eventoRepository.existsById(datosEntradaRegistroEvento.idUsuario())) {
+        if (registroEventoRepository.existsById(id) && usuarioRepository.existsById(datosEntradaRegistroEvento.idUsuario()) && eventoRepository.existsById(datosEntradaRegistroEvento.idEvento())) {
             RegistroEvento registroEventoActualizado = service.actualizar(id, datosEntradaRegistroEvento);
             return ResponseEntity.ok(new DatosSalidaRegistroEvento(registroEventoActualizado));
         } else {

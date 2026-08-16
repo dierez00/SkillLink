@@ -13,7 +13,10 @@ import java.util.Date;
 @Service
 public class JwtPasswordTokenService {
 
-    @Value("${api.security.secret}")
+    private static final String ISSUER = "SkillLink-password-reset";
+    private static final String PURPOSE = "password-reset";
+
+    @Value("${api.security.password-reset-secret}")
     private String secret;
 
     // Generar token con expiración de 15 minutos
@@ -22,7 +25,9 @@ public class JwtPasswordTokenService {
         Instant exp = now.plusSeconds(15 * 60); // 15 minutos
 
         return JWT.create()
+                .withIssuer(ISSUER)
                 .withSubject(email)
+                .withClaim("purpose", PURPOSE)
                 .withIssuedAt(Date.from(now))
                 .withExpiresAt(Date.from(exp))
                 .sign(Algorithm.HMAC256(secret));
@@ -32,7 +37,10 @@ public class JwtPasswordTokenService {
     public String validateToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm).build();
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer(ISSUER)
+                    .withClaim("purpose", PURPOSE)
+                    .build();
             DecodedJWT jwt = verifier.verify(token);
             return jwt.getSubject(); // email
         } catch (Exception e) {

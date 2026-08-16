@@ -33,7 +33,6 @@ public class DesafioService {
             existing.setDificultad(nuevoDesafio.getDificultad());
             existing.setfecha_limite(nuevoDesafio.getfecha_limite());
             existing.setEstado(nuevoDesafio.getEstado());
-            existing.setid_usuario(nuevoDesafio.getid_usuario());
             return repository.save(existing);
         }).orElse(null);
     }
