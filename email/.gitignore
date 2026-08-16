@@ -90,6 +90,7 @@ storybook-static/
 
 # dotenv environment variables file
 .env.*
+!.env.example
 
 # PM2 logs
 pids
