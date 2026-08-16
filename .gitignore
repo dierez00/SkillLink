@@ -4,12 +4,15 @@
 
 # Ignore compiled class files
 *.class
+out/
 
 # Ignore logs
 *.log
 
 # Ignore target/ directory (Maven)
 target/
+dist/
+node_modules/
 
 # Ignore build/ directory (Gradle)
 build/
@@ -21,3 +24,5 @@ build/
 
 # Ignore environment files
 .env
+.env.*
+!.env.example
